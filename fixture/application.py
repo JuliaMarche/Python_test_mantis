@@ -2,13 +2,17 @@ from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from fixture.session import SessionHelper
 from fixture.project import ProjectHelper
+from fixture.james import JamesHelper
+from fixture.signup import SignupHelper
+from fixture.mail import MailHelper
+from fixture.soap import SoapHelper
 
 options = Options()
 options.binary_location = r"C:\Users\marchenko.js\AppData\Local\Mozilla Firefox\firefox.exe"
 
 class Application:
 
-    def __init__(self, browser, base_url):
+    def __init__(self, browser, config):
         if browser == "firefox":
             self.wd = webdriver.Firefox(executable_path=r'C:\Windows\System32\geckodriver.exe', options=options)
         elif browser == "chrome":
@@ -19,7 +23,12 @@ class Application:
             raise ValueError("Unrecognized browser %s" % browser)
         self.session = SessionHelper(self)
         self.project = ProjectHelper(self)
-        self.base_url = base_url
+        self.james = JamesHelper(self)
+        self.signup = SignupHelper(self)
+        self.mail = MailHelper(self)
+        self.soap = SoapHelper(self)
+        self.config = config
+        self.base_url = config['web']['baseUrl']
 
     def is_valid(self):
         try:
