@@ -4,15 +4,10 @@
     "username": "administrator",
     "password": "root"
   },
-
-    "webadmin": {
-    "username": "administrator",
-    "password": "root"
-  },
-
   "db": {
-    "host":"localhost",
+    "host": "localhost",
     "name": "bugtracker",
     "user": "root",
     "password": ""
-  },
+  }
+}
