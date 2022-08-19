@@ -8,11 +8,23 @@ class ProjectHelper:
     def add_project(self, project):
         wd = self.app.wd
         self.open_project_page()
-        wd.find_element_by_xpath("//input[@value='Create New Project']").click()
+        self.add_new_project()
         self.fill_form(project)
         wd.find_element_by_xpath("//input[@value='Add Project']").click()
         self.open_project_page()
         self.project_cache = None
+
+    def add_new_project(self):
+        wd = self.app.wd
+        wd.find_element_by_xpath("//input[@value='Create New Project']").click()
+
+
+    def open_project_page(self):
+        wd = self.app.wd
+        if not (wd.current_url.endswith("manage_proj_page.php") and
+                len(wd.find_elements_by_name("manage_proj_create_page_token")) > 0):
+            wd.find_element_by_link_text("Manage").click()
+            wd.find_element_by_link_text("Manage Projects").click()
 
     def delete_project(self, name):
         wd = self.app.wd
@@ -22,13 +34,6 @@ class ProjectHelper:
         wd.find_element_by_xpath("//input[@value='Delete Project']").click()
         self.open_project_page()
         self.project_cache = None
-
-    def open_project_page(self):
-        wd = self.app.wd
-        if not (wd.current_url.endswith("manage_proj_page.php") and
-                len(wd.find_elements_by_name("manage_proj_create_page_token")) > 0):
-            wd.find_element_by_link_text("Manage").click()
-            wd.find_element_by_link_text("Manage Projects").click()
 
     def fill_form(self, project):
         self.change_field_value("name", project.name)
